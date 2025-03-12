@@ -23,5 +23,28 @@
     "propertyType": "condo",
     "sqft": "45453",
     "thumbnail": "listings/1212/thumbnail.jpg"
+  },
+  {
+    "about": "sdfsdf",
+    "address": "A-2/270",
+    "area": "sdfsdf",
+    "baths": "23",
+    "beds": "23",
+    "city": "NEW DELHI",
+    "cityArea": "sdfsd",
+    "community": "sdfsdf",
+    "crossStreet": "sdfsdf",
+    "featured": true,
+    "garages": "23",
+    "listingNo": "34432",
+    "photos": [
+      "listings/34432/360_F_93963870_VnTvQJwqzcI1VuGfS1M9CNl5osnrCuGX.jpg",
+      "listings/34432/12740.jpg"
+    ],
+    "postalCode": "110063",
+    "price": "3434",
+    "propertyType": "House",
+    "sqft": "2323",
+    "thumbnail": "listings/34432/thumbnail.jpg"
   }
 ]

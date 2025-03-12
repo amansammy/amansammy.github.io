@@ -11,7 +11,7 @@ with open('listings.json', 'r', encoding='utf-8') as f:
 # Load templates
 with open('listing.html', 'r', encoding='utf-8') as f:
     listing_template = f.read()
-with open('listings.html', 'r', encoding='utf-8') as f:
+with open('listings_template.html', 'r', encoding='utf-8') as f:  # Use listings_template.html
     listings_template = f.read()
 with open('index.html', 'r', encoding='utf-8') as f:
     index_content = f.read()
@@ -57,15 +57,34 @@ for listing in listings:
     listing_page = listing_page.replace('{thumbnailJson}', json.dumps(listing['thumbnail']))
     listing_page = listing_page.replace('{photosJson}', json.dumps(listing['photos']))
     listing_page = listing_page.replace('{price}', format_price(listing['price']))
-    listing_page = listing_page.replace('{today}', datetime.now().strftime('%Y-%m-%d'))  # Add this line for date picker
+    listing_page = listing_page.replace('{today}', datetime.now().strftime('%Y-%m-%d'))
 
     with open(f'listing-{listing["listingNo"]}.html', 'w', encoding='utf-8') as f:
         f.write(listing_page)
 
-# Generate listings.html
-listings_page = listings_template.replace('{listingsJson}', json.dumps(listings))
+# Generate listings.html with only current listings
+active_listings = [listing for listing in listings if listing['listingNo'] in current_listing_nos]
+print('Active listings for listings.html:', active_listings)
+
+# Replace the {listingsJson} placeholder
+listings_json_str = json.dumps(active_listings)
+listings_page = listings_template.replace('{listingsJson}', listings_json_str)
+print('Generated listings_page snippet:', listings_page[:500])
+
+# Delete existing listings.html to avoid caching
+if os.path.exists('listings.html'):
+    os.remove('listings.html')
+    print('Deleted existing listings.html')
+
+# Write listings.html
 with open('listings.html', 'w', encoding='utf-8') as f:
     f.write(listings_page)
+    print('listings.html updated with:', active_listings)
+
+# Verify the written file
+with open('listings.html', 'r', encoding='utf-8') as f:
+    written_content = f.read()
+    print('Written listings.html content snippet:', written_content[:500])
 
 # Update index.html
 index_updated = index_content
