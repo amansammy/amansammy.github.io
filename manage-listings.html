@@ -121,6 +121,11 @@
                 <input type="text" id="listingNo" required>
             </div>
             <div class="form-group">
+                <label>Listing Type:</label>
+                <input type="radio" id="forSale" name="listingType" value="For Sale" checked> For Sale
+                <input type="radio" id="forLease" name="listingType" value="For Lease"> For Lease
+            </div>
+            <div class="form-group">
                 <label>Beds:</label>
                 <input type="number" id="beds" required>
             </div>
@@ -184,7 +189,7 @@
                 const div = document.createElement('div');
                 div.className = 'listing-item';
                 div.innerHTML = `
-                    ${listing.address} (#${listing.listingNo})
+                    ${listing.address} (#${listing.listingNo}) - ${listing.listingType || 'For Sale'}
                     <div>
                         <button class="toggle-btn" onclick="toggleFeatured(${index})">
                             ${listing.featured ? 'Unfeature' : 'Feature'}
@@ -204,9 +209,10 @@
                 address: document.getElementById('address').value,
                 city: document.getElementById('city').value.toUpperCase(),
                 postalCode: document.getElementById('postalCode').value,
-                price: document.getElementById('price').value, // New field
-                propertyType: document.getElementById('propertyType').value, // New field
+                price: document.getElementById('price').value,
+                propertyType: document.getElementById('propertyType').value,
                 listingNo: document.getElementById('listingNo').value,
+                listingType: document.querySelector('input[name="listingType"]:checked').value, // Ensure correct value
                 beds: document.getElementById('beds').value,
                 baths: document.getElementById('baths').value,
                 garages: document.getElementById('garages').value,
@@ -218,6 +224,8 @@
                 cityArea: document.getElementById('cityArea').value,
                 featured: false
             };
+
+            console.log('Form Data Before Sending:', listing); // Debug: Check listingType
 
             formData.append('listing', JSON.stringify(listing));
             formData.append('thumbnail', document.getElementById('thumbnail').files[0]);
@@ -233,14 +241,14 @@
                 });
                 if (!response.ok) throw new Error(`Server error: ${response.status}`);
                 const updatedListing = await response.json();
-                console.log('Added listing:', updatedListing);
+                console.log('Server Response:', updatedListing); // Debug: Verify listingType
 
                 listings.push(updatedListing);
                 this.reset();
                 displayListings();
             } catch (error) {
                 console.error('Error adding listing:', error);
-                alert('Failed to add listing. Check the damn server.');
+                alert('Failed to add listing. Check the server.');
             }
         });
 
@@ -250,8 +258,19 @@
         }
 
         function removeListing(index) {
-            listings.splice(index, 1);
-            displayListings();
+            const listingNo = listings[index].listingNo;
+            fetch('/remove-listing', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ listingNo })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                listings.splice(index, 1);
+                displayListings();
+            })
+            .catch(error => console.error('Error removing listing:', error));
         }
 
         function saveAll() {
@@ -263,7 +282,7 @@
             a.download = 'listings.json';
             a.click();
             URL.revokeObjectURL(url);
-            alert('listings.json saved! Move it to the project root.');
+            alert('listings.json saved! Move it to the project root and run update_pages.py.');
         }
 
         // Load listings on page load

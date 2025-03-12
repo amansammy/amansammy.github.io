@@ -21,6 +21,11 @@ def add_listing():
     listing = json.loads(listing)
     listing_no = listing['listingNo']
     
+    # Use listingType from the JSON, default to "For Sale" if missing
+    listing['listingType'] = listing.get('listingType', 'For Sale')
+    if listing['listingType'] not in ['For Sale', 'For Lease']:
+        listing['listingType'] = 'For Sale'  # Ensure valid value
+    
     folder_path = os.path.join('listings', listing_no)
     os.makedirs(folder_path, exist_ok=True)
     
@@ -38,6 +43,15 @@ def add_listing():
             photo_file.save(photo_path)
             listing['photos'].append(f'listings/{listing_no}/{photo_file.filename}')
     
+    # Update listings.json with the new listing
+    listings = []
+    if os.path.exists('listings.json'):
+        with open('listings.json', 'r', encoding='utf-8') as f:
+            listings = json.load(f)
+    listings.append(listing)
+    with open('listings.json', 'w', encoding='utf-8') as f:
+        json.dump(listings, f, indent=2)
+    
     return jsonify(listing)
 
 @app.route('/listing-<listingNo>')
@@ -47,6 +61,10 @@ def serve_listing(listingNo):
 @app.route('/listings')
 def serve_listings():
     return send_from_directory('.', 'listings.html')
+
+@app.route('/for-lease')
+def serve_for_lease():
+    return send_from_directory('.', 'for-lease.html')
 
 @app.route('/remove-listing', methods=['POST'])
 def remove_listing():
@@ -63,6 +81,14 @@ def remove_listing():
     html_path = f'listing-{listing_no}.html'
     if os.path.exists(html_path):
         os.remove(html_path)
+    
+    # Remove from listings.json
+    if os.path.exists('listings.json'):
+        with open('listings.json', 'r', encoding='utf-8') as f:
+            listings = json.load(f)
+        listings = [l for l in listings if l['listingNo'] != listing_no]
+        with open('listings.json', 'w', encoding='utf-8') as f:
+            json.dump(listings, f, indent=2)
     
     return jsonify({'message': 'Listing removed'})
 

@@ -11,7 +11,7 @@ with open('listings.json', 'r', encoding='utf-8') as f:
 # Load templates
 with open('listing.html', 'r', encoding='utf-8') as f:
     listing_template = f.read()
-with open('listings_template.html', 'r', encoding='utf-8') as f:  # Use listings_template.html
+with open('listings_template.html', 'r', encoding='utf-8') as f:
     listings_template = f.read()
 with open('index.html', 'r', encoding='utf-8') as f:
     index_content = f.read()
@@ -58,35 +58,35 @@ for listing in listings:
     listing_page = listing_page.replace('{photosJson}', json.dumps(listing['photos']))
     listing_page = listing_page.replace('{price}', format_price(listing['price']))
     listing_page = listing_page.replace('{today}', datetime.now().strftime('%Y-%m-%d'))
+    # Add listingType to individual pages
+    listing_page = listing_page.replace('{listingType}', listing.get('listingType', 'For Sale'))
 
     with open(f'listing-{listing["listingNo"]}.html', 'w', encoding='utf-8') as f:
         f.write(listing_page)
 
-# Generate listings.html with only current listings
-active_listings = [listing for listing in listings if listing['listingNo'] in current_listing_nos]
-print('Active listings for listings.html:', active_listings)
+# Split listings into For Sale and For Lease
+for_sale_listings = [listing for listing in listings if listing.get('listingType', 'For Sale') == 'For Sale']
+for_lease_listings = [listing for listing in listings if listing.get('listingType', 'For Sale') == 'For Lease']
 
-# Replace the {listingsJson} placeholder
-listings_json_str = json.dumps(active_listings)
+# Generate listings.html (For Sale only)
+listings_json_str = json.dumps(for_sale_listings)
 listings_page = listings_template.replace('{listingsJson}', listings_json_str)
-print('Generated listings_page snippet:', listings_page[:500])
-
-# Delete existing listings.html to avoid caching
 if os.path.exists('listings.html'):
     os.remove('listings.html')
-    print('Deleted existing listings.html')
-
-# Write listings.html
 with open('listings.html', 'w', encoding='utf-8') as f:
     f.write(listings_page)
-    print('listings.html updated with:', active_listings)
+    print('listings.html updated with For Sale listings:', for_sale_listings)
 
-# Verify the written file
-with open('listings.html', 'r', encoding='utf-8') as f:
-    written_content = f.read()
-    print('Written listings.html content snippet:', written_content[:500])
+# Generate for-lease.html (For Lease only)
+for_lease_json_str = json.dumps(for_lease_listings)
+for_lease_page = listings_template.replace('{listingsJson}', for_lease_json_str)
+if os.path.exists('for-lease.html'):
+    os.remove('for-lease.html')
+with open('for-lease.html', 'w', encoding='utf-8') as f:
+    f.write(for_lease_page)
+    print('for-lease.html updated with For Lease listings:', for_lease_listings)
 
-# Update index.html
+# Update index.html (featured listings unchanged)
 index_updated = index_content
 def generate_featured_listing(listing):
     data_w_id = "d528d3b3-1793-c3a7-bfba-918591986887" if listing['listingNo'] == listings[0]['listingNo'] else "24abb0d3-2135-600a-53be-95eaf847645b"
@@ -128,4 +128,4 @@ index_updated = re.sub(
 with open('index.html', 'w', encoding='utf-8') as f:
     f.write(index_updated)
 
-print('Listing pages, listings.html, and index.html updated successfully!')
+print('Listing pages, listings.html, for-lease.html, and index.html updated successfully!')
