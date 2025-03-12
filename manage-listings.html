@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Listings</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 30%;
+            background: #f5f5f5;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #ddd;
+        }
+        .main-form {
+            width: 70%;
+            padding: 20px;
+            position: relative;
+        }
+        .listing-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .save-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .toggle-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        button[type="submit"] {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Current Listings</h2>
+        <div id="listings-list"></div>
+    </div>
+
+    <div class="main-form">
+        <h2>Add New Listing</h2>
+        <button class="save-btn" onclick="saveAll()">Save All</button>
+        
+        <form id="listing-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Thumbnail Photo:</label>
+                <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label>Additional Photos:</label>
+                <input type="file" id="photos" name="photos" accept="image/*" multiple>
+            </div>
+            <div class="form-group">
+                <label>Address:</label>
+                <input type="text" id="address" required>
+            </div>
+            <div class="form-group">
+                <label>City:</label>
+                <input type="text" id="city" required>
+            </div>
+            <div class="form-group">
+                <label>Postal Code:</label>
+                <input type="text" id="postalCode" required>
+            </div>
+            <div class="form-group">
+                <label>Price:</label>
+                <input type="text" id="price" required>
+            </div>
+            <div class="form-group">
+                <label>Property Type:</label>
+                <input type="text" id="propertyType" required>
+            </div>
+            <div class="form-group">
+                <label>Listing Number:</label>
+                <input type="text" id="listingNo" required>
+            </div>
+            <div class="form-group">
+                <label>Beds:</label>
+                <input type="number" id="beds" required>
+            </div>
+            <div class="form-group">
+                <label>Baths:</label>
+                <input type="number" id="baths" required>
+            </div>
+            <div class="form-group">
+                <label>Garages:</label>
+                <input type="number" id="garages" required>
+            </div>
+            <div class="form-group">
+                <label>Square Feet:</label>
+                <input type="number" id="sqft" required>
+            </div>
+            <div class="form-group">
+                <label>About Property:</label>
+                <textarea id="about" required rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Community:</label>
+                <input type="text" id="community" required>
+            </div>
+            <div class="form-group">
+                <label>Area:</label>
+                <input type="text" id="area" required>
+            </div>
+            <div class="form-group">
+                <label>Cross Street:</label>
+                <input type="text" id="crossStreet" required>
+            </div>
+            <div class="form-group">
+                <label>City Area:</label>
+                <input type="text" id="cityArea" required>
+            </div>
+            <button type="submit">Add Listing</button>
+        </form>
+    </div>
+
+    <script>
+        let listings = [];
+
+        // Load listings from listings.json if it exists
+        async function loadListings() {
+            try {
+                const response = await fetch('/listings.json');
+                if (response.ok) {
+                    listings = await response.json();
+                }
+            } catch (error) {
+                console.log('No listings.json found or error loading:', error);
+                listings = [];
+            }
+            displayListings();
+        }
+
+        function displayListings() {
+            const listContainer = document.getElementById('listings-list');
+            listContainer.innerHTML = '';
+            listings.forEach((listing, index) => {
+                const div = document.createElement('div');
+                div.className = 'listing-item';
+                div.innerHTML = `
+                    ${listing.address} (#${listing.listingNo})
+                    <div>
+                        <button class="toggle-btn" onclick="toggleFeatured(${index})">
+                            ${listing.featured ? 'Unfeature' : 'Feature'}
+                        </button>
+                        <button class="remove-btn" onclick="removeListing(${index})">X</button>
+                    </div>
+                `;
+                listContainer.appendChild(div);
+            });
+        }
+
+        document.getElementById('listing-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            const listing = {
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value.toUpperCase(),
+                postalCode: document.getElementById('postalCode').value,
+                price: document.getElementById('price').value, // New field
+                propertyType: document.getElementById('propertyType').value, // New field
+                listingNo: document.getElementById('listingNo').value,
+                beds: document.getElementById('beds').value,
+                baths: document.getElementById('baths').value,
+                garages: document.getElementById('garages').value,
+                sqft: document.getElementById('sqft').value,
+                about: document.getElementById('about').value,
+                community: document.getElementById('community').value,
+                area: document.getElementById('area').value,
+                crossStreet: document.getElementById('crossStreet').value,
+                cityArea: document.getElementById('cityArea').value,
+                featured: false
+            };
+
+            formData.append('listing', JSON.stringify(listing));
+            formData.append('thumbnail', document.getElementById('thumbnail').files[0]);
+            const photoFiles = document.getElementById('photos').files;
+            for (let i = 0; i < photoFiles.length; i++) {
+                formData.append('photos', photoFiles[i]);
+            }
+
+            try {
+                const response = await fetch('/add-listing', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) throw new Error(`Server error: ${response.status}`);
+                const updatedListing = await response.json();
+                console.log('Added listing:', updatedListing);
+
+                listings.push(updatedListing);
+                this.reset();
+                displayListings();
+            } catch (error) {
+                console.error('Error adding listing:', error);
+                alert('Failed to add listing. Check the damn server.');
+            }
+        });
+
+        function toggleFeatured(index) {
+            listings[index].featured = !listings[index].featured;
+            displayListings();
+        }
+
+        function removeListing(index) {
+            listings.splice(index, 1);
+            displayListings();
+        }
+
+        function saveAll() {
+            const jsonData = JSON.stringify(listings, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'listings.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('listings.json saved! Move it to the project root.');
+        }
+
+        // Load listings on page load
+        loadListings();
+    </script>
+</body>
+</html>

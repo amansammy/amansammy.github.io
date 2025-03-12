@@ -1,0 +1,50 @@
+.photo-showcase {
+    width: 1000px; /* Fixed width on desktop */
+    margin: 0 auto;
+}
+.main-image {
+    width: 100%; /* Fills the 1000px container */
+    height: 500px; /* Fixed height */
+    object-fit: cover; /* Ensures photo fits without distortion */
+    border-radius: 8px;
+}
+.thumbnail-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px 0;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    max-width: 100%; /* Prevents overflow beyond parent */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+}
+.thumbnail-container::-webkit-scrollbar { display: none; } /* Chrome, Safari */
+.thumbnail {
+    width: 100px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.7;
+    flex-shrink: 0; /* Prevents thumbnails from shrinking */
+}
+.thumbnail:hover { transform: scale(1.1); opacity: 1; }
+.thumbnail.active { opacity: 1; border: 2px solid #007bff; }
+@media (max-width: 768px) {
+    .photo-showcase {
+        width: calc(100% - 20px); /* Full width minus padding */
+        margin: 0 10px; /* Padding left and right */
+    }
+    .main-image {
+        height: 300px; /* Smaller height on mobile */
+    }
+    .thumbnail-container {
+        padding: 10px; /* Consistent padding */
+        box-sizing: border-box; /* Includes padding in width */
+    }
+    .thumbnail {
+        width: 80px;
+        height: 60px;
+    }
+}
