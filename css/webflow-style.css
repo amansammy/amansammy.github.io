@@ -10734,3 +10734,26 @@ textarea.w-input, textarea.w-select {
   z-index: 3;
   background-color: transparent;
 }
+
+@media screen and (max-width: 767px) {
+  .braoverlaytitle {
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  .braoverlayblock {
+    width: 90%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .heading-72 {
+    margin-top: 50px;
+    line-height: 30px;
+  }
+
+  .div-block-61 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
