@@ -37,6 +37,15 @@
         window.scrollTo(0, 0);
       });
     </script>
+
+  <style>
+  /* Only adding what's needed beyond your Webflow CSS */
+  .braoverlay.active {
+      display: flex; /* Matches your flex display when shown */
+  }
+  </style>
+
+
   </head>
   <body>
     <div data-w-id="d42c31c2-da05-3ef4-e0f4-7446c4a30602" class="top"></div>
@@ -77,52 +86,63 @@
   </div>
 
   
-    <div class="div-block-88"></div>
-    <div class="braoverlay">
-      <div class="braoverlayblock">
-        <h1 class="braoverlaycross">x</h1>
-        <h1 class="braoverlaytitle">Are you currently signed into a B.R.A. Buyer Representation Agreement (Working With A Realtor?)</h1>
-        <div class="div-block-85"><a href="#" class="braoverlayyes w-button">YES</a><a href="#" class="braoverlayno w-button">NO</a></div>
+  <div class="div-block-88"></div>
+  <div class="braoverlay" id="braOverlay">
+    <div class="braoverlayblock">
+      <h1 class="braoverlaytitle" id="braTitle">Are you currently signed into a B.R.A. Buyer Representation Agreement (Working With A Realtor?)</h1>
+      <div class="div-block-85" id="braButtons">
+        <a href="#" class="braoverlayyes w-button" id="braYes">YES</a>
+        <a href="#" class="braoverlayno w-button" id="braNo">NO</a>
       </div>
     </div>
+  </div>
     <div class="div-block-16">
       <h1 class="heading-71">BUYING A HOME - buy with confidence</h1>
       <div class="text-block-39"><strong class="bold-text-5">Did you know there is no cost to having me as your Buyer Representative?</strong></div>
       <div class="text-block-40">Tell us what you’re looking for! Get the latest listings delivered straight to your inbox.<br /></div>
     </div>
     <div class="div-block-61">
-      <div class="form-block-6 w-form">
-        <form id="email-form" name="email-form" data-name="Email Form" method="get" data-wf-page-id="66e632c8b2aa17f270a7d6f2" data-wf-element-id="1f998766-5087-eb79-b62b-813c6ac772c3">
-          <h1 class="heading-72">CONTACT INFORMATION</h1>
-          <h1 class="heading-73">Required fields are marked *</h1><input class="text-field-15 w-input" maxlength="256" name="name" data-name="Name" placeholder="Name *" type="text" id="name" required="" /><input class="text-field-16 w-input" maxlength="256" name="email" data-name="Email" placeholder="Email *" type="email" id="email" required="" /><input class="text-field-17 w-input" maxlength="256" name="Phone" data-name="Phone" placeholder="Phone *" type="tel" id="Phone-2" required="" /><select id="Property-Type" name="Property-Type" data-name="Property Type" class="select-field-4 w-select">
-            <option value="">Property Type</option>
-            <option value="First">Single Family Home</option>
-            <option value="Second">Condominium / Townhouse</option>
-            <option value="Third">Income Property</option>
-          </select><select id="Bedrooms" name="Bedrooms" data-name="Bedrooms" class="select-field-5 w-select">
-            <option value="">Bedrooms</option>
-            <option value="First">1</option>
-            <option value="Second">2</option>
-            <option value="Third">3</option>
-            <option value="Fourth">4</option>
-            <option value="Fifth">5+</option>
-          </select><select id="Bathrooms" name="Bathrooms" data-name="Bathrooms" class="select-field-6 w-select">
-            <option value="">Bathrooms</option>
-            <option value="First">1</option>
-            <option value="Second">2</option>
-            <option value="Third">3</option>
-            <option value="Fourth">4</option>
-            <option value="Fifth">5+</option>
-          </select><input class="text-field-18 w-input" maxlength="256" name="Square-Footage" data-name="Square Footage" placeholder="Square Footage" type="text" id="Square-Footage" /><textarea placeholder="Additional Comments" maxlength="5000" id="Additional-Comments" name="Additional-Comments" data-name="Additional Comments" class="textarea-2 w-input"></textarea><input type="submit" data-wait="Please wait..." class="submit-button-4 w-button" value="SUBMIT" />
-        </form>
-        <div class="w-form-done">
-          <div>Thank you! Your submission has been received!</div>
-        </div>
-        <div class="w-form-fail">
-          <div>Oops! Something went wrong while submitting the form.</div>
-        </div>
+      <div class="form-block-6">
+          <form id="buying-form" name="buying-form">
+              <h1 class="heading-72">CONTACT INFORMATION</h1>
+              <h1 class="heading-73">Required fields are marked *</h1>
+              <input class="text-field-15 w-input" maxlength="256" name="name" placeholder="Name *" type="text" id="name" required="" />
+              <input class="text-field-16 w-input" maxlength="256" name="email" placeholder="Email *" type="email" id="email" required="" />
+              <input class="text-field-17 w-input" maxlength="256" name="phone" placeholder="Phone *" type="tel" id="phone" required="" />
+              <select id="property-type" name="property-type" class="select-field-4 w-select">
+                  <option value="">Property Type</option>
+                  <option value="Single Family Home">Single Family Home</option>
+                  <option value="Condominium / Townhouse">Condominium / Townhouse</option>
+                  <option value="Income Property">Income Property</option>
+              </select>
+              <select id="bedrooms" name="bedrooms" class="select-field-5 w-select">
+                  <option value="">Bedrooms</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5+">5+</option>
+              </select>
+              <select id="bathrooms" name="bathrooms" class="select-field-6 w-select">
+                  <option value="">Bathrooms</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5+">5+</option>
+              </select>
+              <input class="text-field-18 w-input" maxlength="256" name="square-footage" placeholder="Square Footage" type="text" id="square-footage" />
+              <textarea placeholder="Additional Comments" maxlength="5000" id="additional-comments" name="additional-comments" class="textarea-2 w-input"></textarea>
+              <input type="submit" class="submit-button-4 w-button" value="SUBMIT" id="submit-btn" />
+          </form>
+          <div id="form-success" style="display: none;">
+              <div>Thank you! Your submission has been received!</div>
+          </div>
+          <div id="form-error" style="display: none;">
+              <div>Oops! Something went wrong while submitting the form.</div>
+          </div>
       </div>
-    </div>
+  </div>
     <footer class="uui-footer07_component">
       <div class="uui-page-padding-2">
         <div class="uui-container-large-2">
@@ -149,6 +169,89 @@
         </div>
       </div>
     </footer>
+
+<!-- Add EmailJS script before your custom script -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<!-- Update your existing script tag -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize EmailJS
+    emailjs.init('EESFEko27dm9qY7u2'); // Replace with your EmailJS public key
+
+    // Existing BRA overlay code
+    const overlay = document.getElementById('braOverlay');
+    const title = document.getElementById('braTitle');
+    const buttons = document.getElementById('braButtons');
+    const yesBtn = document.getElementById('braYes');
+    const noBtn = document.getElementById('braNo');
+
+    overlay.classList.add('active');
+
+    yesBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        title.textContent = "Unfortunately, we cannot assist you at this time. Please call our office if you have any questions: 647-XXX-XXXX"; // Replace with your number
+        buttons.style.display = 'none';
+    });
+
+    noBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            e.stopPropagation();
+        }
+    });
+
+    // Buying form submission
+    const form = document.getElementById('buying-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const successMsg = document.getElementById('form-success');
+    const errorMsg = document.getElementById('form-error');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitBtn.value = 'Please wait...';
+
+        const formData = {
+            subject: "Buying Form Submission",
+            from_name: document.getElementById('name').value || "",
+            from_email: document.getElementById('email').value || "",
+            phone: document.getElementById('phone').value || "",
+            message: document.getElementById('additional-comments').value || "",
+            preferred_time: "",
+            preferred_date: "",
+            address: "",
+            property_type: document.getElementById('property-type').value || "",
+            bedrooms: document.getElementById('bedrooms').value || "",
+            bathrooms: document.getElementById('bathrooms').value || "",
+            square_footage: document.getElementById('square-footage').value || ""
+        };
+
+        console.log("Buying Form Data:", formData); // Debug: Check what’s being sent
+
+        emailjs.send('service_baxor2i', 'template_rtal6kj', formData)
+            .then(() => {
+                successMsg.style.display = 'block';
+                errorMsg.style.display = 'none';
+                form.reset();
+                submitBtn.value = 'SUBMIT';
+                setTimeout(() => successMsg.style.display = 'none', 5000);
+            })
+            .catch((error) => {
+                console.error('EmailJS Error:', error);
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'block';
+                submitBtn.value = 'SUBMIT';
+                setTimeout(() => errorMsg.style.display = 'none', 5000);
+            });
+    });
+});
+</script>
+
+
     <script src="/js/jquery.js" type="text/javascript"  ></script>
     <script src="/js/webflow.schunk.6c94673727302d98.js" type="text/javascript"></script>
     <script src="/js/webflow.schunk.9619e854913b3e55.js" type="text/javascript"></script>

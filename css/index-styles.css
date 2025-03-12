@@ -1,0 +1,64 @@
+.homerbanner2 {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .homerbanner2.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .hb2imgleft {
+    transform: translateX(-50px);
+    transition: transform 0.6s ease-out;
+  }
+  
+  .hb2imgright {
+    transform: translateX(50px);
+    transition: transform 0.6s ease-out;
+  }
+  
+  .homerbanner2.visible .hb2imgleft,
+  .homerbanner2.visible .hb2imgright {
+    transform: translateX(0);
+  }
+  
+  .hb2textblock {
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+  }
+  
+  .homerbanner2.visible .hb2textblock {
+    opacity: 1;
+  }
+
+  /* Initial state for elements before animation */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+/* Active state when element is in view */
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delay for multiple elements */
+.uui-heroheader24_component .animate-on-scroll:nth-child(1) { transition-delay: 0s; }
+.uui-heroheader24_component .animate-on-scroll:nth-child(2) { transition-delay: 0.1s; }
+.uui-heroheader24_component .animate-on-scroll:nth-child(3) { transition-delay: 0.2s; }
+.uui-heroheader24_component .animate-on-scroll:nth-child(4) { transition-delay: 0.3s; }
+.uui-heroheader24_component .animate-on-scroll:nth-child(5) { transition-delay: 0.4s; }
+
+.div-block-64 .animate-on-scroll:nth-child(1) { transition-delay: 0s; }
+.div-block-64 .animate-on-scroll:nth-child(2) { transition-delay: 0.1s; }
+.div-block-64 .animate-on-scroll:nth-child(3) { transition-delay: 0.2s; }
+.div-block-64 .animate-on-scroll:nth-child(4) { transition-delay: 0.3s; }
+
+.div-block-12 .animate-on-scroll:nth-child(1) { transition-delay: 0s; }
+.div-block-12 .animate-on-scroll:nth-child(2) { transition-delay: 0.1s; }
+.div-block-12 .animate-on-scroll:nth-child(3) { transition-delay: 0.2s; }
+.div-block-12 .animate-on-scroll:nth-child(4) { transition-delay: 0.3s; }
