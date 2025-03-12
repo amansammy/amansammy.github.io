@@ -58,7 +58,6 @@ for listing in listings:
     listing_page = listing_page.replace('{photosJson}', json.dumps(listing['photos']))
     listing_page = listing_page.replace('{price}', format_price(listing['price']))
     listing_page = listing_page.replace('{today}', datetime.now().strftime('%Y-%m-%d'))
-    # Add listingType to individual pages
     listing_page = listing_page.replace('{listingType}', listing.get('listingType', 'For Sale'))
 
     with open(f'listing-{listing["listingNo"]}.html', 'w', encoding='utf-8') as f:
@@ -71,6 +70,7 @@ for_lease_listings = [listing for listing in listings if listing.get('listingTyp
 # Generate listings.html (For Sale only)
 listings_json_str = json.dumps(for_sale_listings)
 listings_page = listings_template.replace('{listingsJson}', listings_json_str)
+listings_page = listings_page.replace('<h1 class="heading-78">ALL LISTINGS</h1>', '<h1 class="heading-78">FOR SALE</h1>')
 if os.path.exists('listings.html'):
     os.remove('listings.html')
 with open('listings.html', 'w', encoding='utf-8') as f:
@@ -80,6 +80,7 @@ with open('listings.html', 'w', encoding='utf-8') as f:
 # Generate for-lease.html (For Lease only)
 for_lease_json_str = json.dumps(for_lease_listings)
 for_lease_page = listings_template.replace('{listingsJson}', for_lease_json_str)
+for_lease_page = for_lease_page.replace('<h1 class="heading-78">ALL LISTINGS</h1>', '<h1 class="heading-78">FOR LEASE</h1>')
 if os.path.exists('for-lease.html'):
     os.remove('for-lease.html')
 with open('for-lease.html', 'w', encoding='utf-8') as f:
