@@ -10729,3 +10729,8 @@ textarea.w-input, textarea.w-select {
     z-index: 2;
 }
 }
+
+.contact-section {
+  z-index: 3;
+  background-color: transparent;
+}
