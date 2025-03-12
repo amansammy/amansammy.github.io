@@ -27,7 +27,6 @@
     <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <link href="/images/app-icon.png" rel="apple-touch-icon" />
     <script>
-      // Force the page to load at the top
       document.addEventListener("DOMContentLoaded", function() {
         if ('scrollRestoration' in history) {
           history.scrollRestoration = "manual";
@@ -123,6 +122,7 @@
             <option value="$750K - $1M">$750K - $1M</option>
             <option value="Over $1M">Over $1M</option>
           </select>
+          <input class="text-field-18 w-input" maxlength="256" name="city" placeholder="Preferred City (e.g., Toronto)" type="text" id="city" />
           <input class="text-field-18 w-input" maxlength="256" name="completion-date" placeholder="Preferred Completion Date (e.g., Q1 2026)" type="text" id="completion-date" />
           <textarea placeholder="Additional Preferences (e.g., location, amenities)" maxlength="5000" id="additional-preferences" name="additional-preferences" class="textarea-2 w-input"></textarea>
           <input type="submit" class="submit-button-4 w-button" value="SUBMIT" id="submit-btn" />
@@ -207,15 +207,16 @@
           address: "",
           property_type: document.getElementById('unit-type').value || "",
           bedrooms: document.getElementById('bedrooms').value || "",
-          bathrooms: "", // Not applicable for pre-construction
-          square_footage: "", // Not applicable, replaced with budget
+          bathrooms: "", 
+          square_footage: "",
           budget: document.getElementById('budget').value || "",
+          city: document.getElementById('city').value || "",
           completion_date: document.getElementById('completion-date').value || ""
         };
 
         console.log("Pre-Construction Form Data:", formData);
 
-        emailjs.send('service_baxor2i', 'template_3c5ghck', formData)
+        emailjs.send('service_baxor2i', 'template_new_buy_pre', formData) // Use new template ID after creating it
           .then(() => {
             successMsg.style.display = 'block';
             errorMsg.style.display = 'none';
