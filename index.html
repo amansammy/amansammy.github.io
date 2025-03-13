@@ -591,5 +591,52 @@ document.addEventListener('DOMContentLoaded', () => {
   <script src="/js/webflow.schunk.d76ee91ec9539584.js" type="text/javascript"></script>
   <script src="/js/webflow-script.js" type="text/javascript"></script>
   <script src="/js/scripts.js" type="text/javascript"></script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Function to fix mobile overflow
+    function fixMobileOverflow() {
+        // Only apply on mobile devices
+        if (window.innerWidth <= 768) {
+            // Set body and html to prevent overflow
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowX = 'hidden';
+            
+            // Force viewport width
+            const viewportWidth = window.innerWidth;
+            document.body.style.width = `${viewportWidth}px`;
+            document.body.style.maxWidth = `${viewportWidth}px`;
+            
+            // Fix any elements that might be causing overflow
+            const elements = document.querySelectorAll('*');
+            elements.forEach(el => {
+                const computedStyle = window.getComputedStyle(el);
+                if (parseFloat(computedStyle.width) > viewportWidth) {
+                    el.style.maxWidth = `${viewportWidth}px`;
+                }
+            });
+        }
+    }
+
+    // Run on load
+    fixMobileOverflow();
+
+    // Run on resize (debounced to prevent performance issues)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(fixMobileOverflow, 100);
+    });
+
+    // Fix animation overflow
+    const animatedElements = document.querySelectorAll('[style*="translate3d"]');
+    animatedElements.forEach(el => {
+        el.style.willChange = 'transform'; // Optimize animation performance
+        el.style.contain = 'layout'; // Prevent overflow from transforms
+    });
+});
+</script>
+
 </body>
 </html>
