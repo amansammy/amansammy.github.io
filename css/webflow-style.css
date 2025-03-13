@@ -3662,7 +3662,7 @@ textarea.w-input, textarea.w-select {
 
 .div-block-12 {
   background-color: #000;
-  background-image: url("../images/skylinebg.png"), linear-gradient(#ebebeb, #ebebeb);
+  background-image: url("../images/skylinebg.png"), linear-gradient(#ffffff, #ffffff);
   background-position: 50%, 0 0;
   background-size: cover, auto;
   flex-flow: column;
@@ -10605,6 +10605,13 @@ textarea.w-input, textarea.w-select {
     line-height: 30px;
   }
 
+  .uui-heroheader24_component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100vw;
+  }
+
   .rt-contact-two-flex-one.rt-contact-one-flex {
     display: none;
   }
@@ -10743,6 +10750,12 @@ textarea.w-input, textarea.w-select {
 
 @media screen and (max-width: 1279px) {
   .sidemenu-wrapper.active {
+    .uui-heroheader24_component {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 100vw;
+    }
     opacity: 1 !important;
     pointer-events: auto;
     display: block !important;
@@ -10780,6 +10793,14 @@ textarea.w-input, textarea.w-select {
     margin-top: 50px;
     line-height: 30px;
   }
+
+  .uui-heroheader24_component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100vw;
+  }
+  
 
   .div-block-61 {
     padding-left: 15px;
