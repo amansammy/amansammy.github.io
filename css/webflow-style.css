@@ -3367,7 +3367,7 @@ textarea.w-input, textarea.w-select {
   justify-content: center;
   padding-top: 100px;
   padding-bottom: 100px;
-  width: 100%;
+  width: 100vw;
   margin-top: 0;
   display: flex;
   position: relative;
@@ -3673,7 +3673,7 @@ textarea.w-input, textarea.w-select {
   padding-top: 248px;
   display: n;
   position: relative;
-  width: 100%;
+  width: 100vw;
 }
 
 .form {
@@ -5515,7 +5515,7 @@ textarea.w-input, textarea.w-select {
   margin-bottom: 0;
   display: flex;
   position: static;
-  max-width: 95vw;
+  width: 100vw;
 }
 
 .heading-32 {
@@ -5731,7 +5731,6 @@ textarea.w-input, textarea.w-select {
   grid-auto-columns: 1fr;
   justify-content: center;
   align-items: center;
-  width: 95%;
   height: auto;
   display: flex;
 }
@@ -6170,6 +6169,7 @@ textarea.w-input, textarea.w-select {
 
 .div-block-12 {
   display: flex;
+  width: 100vw;
 }
 
 .div-block-64 {
@@ -8995,7 +8995,7 @@ textarea.w-input, textarea.w-select {
   }
 
   .homerbanner2 {
-    width: 100%;
+    width: 100vw;
     padding-top: 100px;
     padding-bottom: 100px;
   }
@@ -9292,6 +9292,7 @@ textarea.w-input, textarea.w-select {
     flex-flow: column;
     align-items: center;
     max-width: 100vw;
+    width: 100%;
   }
 
   .flgrid2 {
@@ -10186,6 +10187,7 @@ textarea.w-input, textarea.w-select {
     height: auto;
     padding-top: 50px;
     padding-bottom: 50px;
+    overflow-x: hidden;
   }
 
   .hb2textblock {
@@ -10221,7 +10223,7 @@ textarea.w-input, textarea.w-select {
   .div-block-12 {
     background-image: url("../images/skylinebg.png"), linear-gradient(to bottom, null, null);
     background-size: auto, auto;
-    width: 100%;
+    width: 100vw;
     max-width: 100vw;
     overflow-x: hidden;
     display: flex;
