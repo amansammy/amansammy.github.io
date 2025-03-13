@@ -4,45 +4,110 @@
     <meta charset="UTF-8">
     <title>Manage Listings</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            color: #333;
             display: flex;
-            height: 100vh;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         .sidebar {
-            width: 30%;
-            background: #f5f5f5;
+            width: 300px;
+            background: #2c3e50;
+            color: #ecf0f1;
             padding: 20px;
             overflow-y: auto;
-            border-right: 1px solid #ddd;
+            position: fixed;
+            height: 100%;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
-        .main-form {
-            width: 70%;
-            padding: 20px;
-            position: relative;
+        .sidebar h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-align: center;
+        }
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #bdc3c7;
         }
         .listing-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: white;
-            border: 1px solid #ddd;
+            background: #34495e;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        .listing-item:hover, .listing-item.active {
+            background: #3e5c76;
+        }
+        .listing-item span {
+            font-size: 14px;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .main-form {
+            margin-left: 300px;
+            flex-grow: 1;
+            padding: 40px;
+            background: #ffffff;
+            position: relative;
+        }
+        .main-form h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #2c3e50;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         label {
             display: block;
+            font-size: 14px;
+            font-weight: 600;
             margin-bottom: 5px;
+            color: #2c3e50;
         }
-        input, textarea {
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        input[type="file"],
+        select {
             width: 100%;
-            padding: 5px;
-            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        input[type="file"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        .radio-group {
+            display: flex;
+            gap: 20px;
         }
         .save-btn {
             position: absolute;
@@ -52,39 +117,95 @@
             background: #007bff;
             color: white;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .save-btn:hover {
+            background: #0056b3;
         }
         .toggle-btn {
             background: #28a745;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+        .toggle-btn:hover {
+            background: #218838;
         }
         .remove-btn {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+        .remove-btn:hover {
+            background: #c82333;
         }
         button[type="submit"] {
-            padding: 10px 20px;
+            padding: 12px 24px;
             background: #28a745;
             color: white;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        button[type="submit"]:hover {
+            background: #218838;
+        }
+        .edit-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+            display: none; /* Hidden by default */
+        }
+        .edit-btn:hover {
+            background: #e08e0b;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding-bottom: 10px;
+            }
+            .main-form {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .save-btn {
+                position: static;
+                width: 100%;
+                margin-top: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="sidebar">
+        <h1>RealtorMKS Listings Admin Panel</h1>
         <h2>Current Listings</h2>
         <div id="listings-list"></div>
     </div>
 
     <div class="main-form">
-        <h2>Add New Listing</h2>
+        <h2 id="form-title">Add New Listing</h2>
         <button class="save-btn" onclick="saveAll()">Save All</button>
         
         <form id="listing-form" enctype="multipart/form-data">
@@ -122,8 +243,10 @@
             </div>
             <div class="form-group">
                 <label>Listing Type:</label>
-                <input type="radio" id="forSale" name="listingType" value="For Sale" checked> For Sale
-                <input type="radio" id="forLease" name="listingType" value="For Lease"> For Lease
+                <div class="radio-group">
+                    <label><input type="radio" id="forSale" name="listingType" value="For Sale" checked> For Sale</label>
+                    <label><input type="radio" id="forLease" name="listingType" value="For Lease"> For Lease</label>
+                </div>
             </div>
             <div class="form-group">
                 <label>Beds:</label>
@@ -161,14 +284,16 @@
                 <label>City Area:</label>
                 <input type="text" id="cityArea" required>
             </div>
-            <button type="submit">Add Listing</button>
+            <button type="submit" id="add-btn">Add Listing</button>
+            <button type="button" class="edit-btn" id="edit-btn" onclick="saveEditedListing()">Save Edited Listing</button>
+            <button type="button" class="edit-btn" id="cancel-btn" onclick="cancelEdit()">Cancel</button>
         </form>
     </div>
 
     <script>
         let listings = [];
+        let editingIndex = null;
 
-        // Load listings from listings.json if it exists
         async function loadListings() {
             try {
                 const response = await fetch('/listings.json');
@@ -187,9 +312,9 @@
             listContainer.innerHTML = '';
             listings.forEach((listing, index) => {
                 const div = document.createElement('div');
-                div.className = 'listing-item';
+                div.className = `listing-item ${editingIndex === index ? 'active' : ''}`;
                 div.innerHTML = `
-                    ${listing.address} (#${listing.listingNo}) - ${listing.listingType || 'For Sale'}
+                    <span onclick="editListing(${index})">${listing.address} (#${listing.listingNo}) - ${listing.listingType || 'For Sale'}</span>
                     <div>
                         <button class="toggle-btn" onclick="toggleFeatured(${index})">
                             ${listing.featured ? 'Unfeature' : 'Feature'}
@@ -203,6 +328,7 @@
 
         document.getElementById('listing-form').addEventListener('submit', async function(e) {
             e.preventDefault();
+            if (editingIndex !== null) return; // Prevent adding when editing
 
             const formData = new FormData();
             const listing = {
@@ -212,7 +338,7 @@
                 price: document.getElementById('price').value,
                 propertyType: document.getElementById('propertyType').value,
                 listingNo: document.getElementById('listingNo').value,
-                listingType: document.querySelector('input[name="listingType"]:checked').value, // Ensure correct value
+                listingType: document.querySelector('input[name="listingType"]:checked').value,
                 beds: document.getElementById('beds').value,
                 baths: document.getElementById('baths').value,
                 garages: document.getElementById('garages').value,
@@ -225,7 +351,7 @@
                 featured: false
             };
 
-            console.log('Form Data Before Sending:', listing); // Debug: Check listingType
+            console.log('Adding Listing:', listing);
 
             formData.append('listing', JSON.stringify(listing));
             formData.append('thumbnail', document.getElementById('thumbnail').files[0]);
@@ -241,16 +367,115 @@
                 });
                 if (!response.ok) throw new Error(`Server error: ${response.status}`);
                 const updatedListing = await response.json();
-                console.log('Server Response:', updatedListing); // Debug: Verify listingType
+                console.log('Server Response:', updatedListing);
 
                 listings.push(updatedListing);
                 this.reset();
+                editingIndex = null;
+                toggleFormMode('add');
                 displayListings();
             } catch (error) {
                 console.error('Error adding listing:', error);
                 alert('Failed to add listing. Check the server.');
             }
         });
+
+        function editListing(index) {
+            editingIndex = index;
+            const listing = listings[index];
+            document.getElementById('form-title').textContent = 'Edit Listing';
+            document.getElementById('address').value = listing.address;
+            document.getElementById('city').value = listing.city;
+            document.getElementById('postalCode').value = listing.postalCode;
+            document.getElementById('price').value = listing.price;
+            document.getElementById('propertyType').value = listing.propertyType;
+            document.getElementById('listingNo').value = listing.listingNo;
+            document.getElementById('forSale').checked = listing.listingType === 'For Sale';
+            document.getElementById('forLease').checked = listing.listingType === 'For Lease';
+            document.getElementById('beds').value = listing.beds;
+            document.getElementById('baths').value = listing.baths;
+            document.getElementById('garages').value = listing.garages;
+            document.getElementById('sqft').value = listing.sqft;
+            document.getElementById('about').value = listing.about;
+            document.getElementById('community').value = listing.community;
+            document.getElementById('area').value = listing.area;
+            document.getElementById('crossStreet').value = listing.crossStreet;
+            document.getElementById('cityArea').value = listing.cityArea;
+            // Clear file inputs (user must re-upload if changing photos)
+            document.getElementById('thumbnail').value = '';
+            document.getElementById('photos').value = '';
+            toggleFormMode('edit');
+            displayListings(); // Highlight active listing
+        }
+
+        async function saveEditedListing() {
+            const formData = new FormData();
+            const listing = {
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value.toUpperCase(),
+                postalCode: document.getElementById('postalCode').value,
+                price: document.getElementById('price').value,
+                propertyType: document.getElementById('propertyType').value,
+                listingNo: document.getElementById('listingNo').value,
+                listingType: document.querySelector('input[name="listingType"]:checked').value,
+                beds: document.getElementById('beds').value,
+                baths: document.getElementById('baths').value,
+                garages: document.getElementById('garages').value,
+                sqft: document.getElementById('sqft').value,
+                about: document.getElementById('about').value,
+                community: document.getElementById('community').value,
+                area: document.getElementById('area').value,
+                crossStreet: document.getElementById('crossStreet').value,
+                cityArea: document.getElementById('cityArea').value,
+                featured: listings[editingIndex].featured // Preserve featured status
+            };
+
+            console.log('Editing Listing:', listing);
+
+            formData.append('listing', JSON.stringify(listing));
+            const thumbnailFile = document.getElementById('thumbnail').files[0];
+            if (thumbnailFile) formData.append('thumbnail', thumbnailFile);
+            const photoFiles = document.getElementById('photos').files;
+            for (let i = 0; i < photoFiles.length; i++) {
+                formData.append('photos', photoFiles[i]);
+            }
+
+            try {
+                const response = await fetch('/update-listing', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) throw new Error(`Server error: ${response.status}`);
+                const updatedListing = await response.json();
+                console.log('Server Response:', updatedListing);
+
+                listings[editingIndex] = updatedListing;
+                document.getElementById('listing-form').reset();
+                editingIndex = null;
+                toggleFormMode('add');
+                displayListings();
+            } catch (error) {
+                console.error('Error updating listing:', error);
+                alert('Failed to update listing. Check the server.');
+            }
+        }
+
+        function toggleFormMode(mode) {
+            const addBtn = document.getElementById('add-btn');
+            const editBtn = document.getElementById('edit-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            document.getElementById('form-title').textContent = mode === 'add' ? 'Add New Listing' : 'Edit Listing';
+            addBtn.style.display = mode === 'add' ? 'block' : 'none';
+            editBtn.style.display = mode === 'edit' ? 'block' : 'none';
+            cancelBtn.style.display = mode === 'edit' ? 'block' : 'none';
+            document.getElementById('thumbnail').required = mode === 'add';
+        }
+
+        function cancelEdit() {
+            document.getElementById('listing-form').reset();
+            editingIndex = null;
+            toggleFormMode('add');
+        }
 
         function toggleFeatured(index) {
             listings[index].featured = !listings[index].featured;
@@ -268,6 +493,13 @@
             .then(data => {
                 console.log(data.message);
                 listings.splice(index, 1);
+                if (editingIndex === index) {
+                    document.getElementById('listing-form').reset();
+                    editingIndex = null;
+                    toggleFormMode('add');
+                } else if (editingIndex > index) {
+                    editingIndex--;
+                }
                 displayListings();
             })
             .catch(error => console.error('Error removing listing:', error));
@@ -275,17 +507,22 @@
 
         function saveAll() {
             const jsonData = JSON.stringify(listings, null, 2);
-            const blob = new Blob([jsonData], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'listings.json';
-            a.click();
-            URL.revokeObjectURL(url);
-            alert('listings.json saved! Move it to the project root and run update_pages.py.');
-        }
+            fetch('/save-listings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: jsonData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                alert(data.message); // Show the final status
+            })
+            .catch(error => {
+                console.error('Error saving listings:', error);
+                alert('Failed to save and update. Check the server.');
+            });
+        }       
 
-        // Load listings on page load
         loadListings();
     </script>
 </body>
