@@ -5730,7 +5730,7 @@ textarea.w-input, textarea.w-select {
   grid-template-columns: .75fr 1fr 1.5fr;
   grid-auto-columns: 1fr;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   width: 95%;
   height: auto;
   display: flex;
