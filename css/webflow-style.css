@@ -5735,17 +5735,6 @@ textarea.w-input, textarea.w-select {
   display: flex;
 }
 
-.flgrid2 {
-  grid-column-gap: 10px;
-  grid-row-gap: 10px;
-  grid-template-rows: auto;
-  grid-template-columns: 1fr 1fr .75fr;
-  grid-auto-columns: 1fr;
-  justify-content: center;
-  width: 95%;
-  height: auto;
-  display: flex;
-}
 
 .viewmore {
   margin-top: 0;
