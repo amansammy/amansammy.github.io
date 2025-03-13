@@ -600,8 +600,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Only apply on mobile devices
         if (window.innerWidth <= 768) {
             // Set body and html to prevent overflow
-            //document.body.style.overflowX = 'hidden';
-            //document.documentElement.style.overflowX = 'hidden';
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowX = 'hidden';
             
             // Force viewport width
             const viewportWidth = window.innerWidth;
