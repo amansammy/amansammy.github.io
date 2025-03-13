@@ -85,18 +85,34 @@
     </div>
     <div class="div-block-15">
       <div class="w-layout-blockcontainer container-10 w-container">
-        <div class="form-block w-form">
-          <form id="email-form" name="email-form" data-name="Email Form" method="get" class="form-2" data-wf-page-id="66e62eccf04fad8bb5a044ca" data-wf-element-id="0dece481-e0f2-cd3e-36d5-26fc60f98962"><label for="name">Name*</label><input class="text-field-2 w-input" maxlength="256" name="name" data-name="Name" placeholder="required" type="text" id="name" /><label for="email">Email Address*</label><input class="text-field-4 w-input" maxlength="256" name="email" data-name="Email" placeholder="required" type="email" id="email" required="" /><label for="field">Phone Number</label><input class="text-field-5 w-input" maxlength="256" name="field" data-name="Field" placeholder="" type="text" id="field" /><label for="field-2">Address</label><input class="text-field-6 w-input" maxlength="256" name="field-2" data-name="Field 2" placeholder="" type="text" id="field-2" /><label for="field-3">Property Type</label><select id="field-3" name="field-3" data-name="Field 3" class="select-field w-select">
+        <div class="form-block">
+          <form id="home-evaluation-form" name="home-evaluation-form" class="form-2">
+            <label for="name">Name*</label>
+            <input class="text-field-2 w-input" maxlength="256" name="name" placeholder="required" type="text" id="name" required="" />
+            <label for="email">Email Address*</label>
+            <input class="text-field-4 w-input" maxlength="256" name="email" placeholder="required" type="email" id="email" required="" />
+            <label for="phone">Phone Number</label>
+            <input class="text-field-5 w-input" maxlength="256" name="phone" placeholder="" type="text" id="phone" />
+            <label for="address">Address</label>
+            <input class="text-field-6 w-input" maxlength="256" name="address" placeholder="" type="text" id="address" />
+            <label for="property-type">Property Type</label>
+            <select id="property-type" name="property-type" class="select-field w-select">
               <option value="">Select one...</option>
               <option value="Single Family House">Single Family House</option>
               <option value="Condominium">Condominium</option>
               <option value="Rental">Rental</option>
               <option value="Commercial">Commercial</option>
-            </select><label for="field-4">Approx. Size</label><input class="text-field-7 w-input" maxlength="256" name="field-4" data-name="Field 4" placeholder="Sq. Ft." type="text" id="field-4" required="" /><label for="field-5">Comments</label><textarea placeholder="" maxlength="5000" id="field-5" name="field-5" data-name="Field 5" class="textarea w-input"></textarea><input type="submit" data-wait="Please wait..." class="submit-button-2 w-button" value="Submit" /></form>
-          <div class="w-form-done">
+            </select>
+            <label for="size">Approx. Size</label>
+            <input class="text-field-7 w-input" maxlength="256" name="size" placeholder="Sq. Ft." type="text" id="size" required="" />
+            <label for="comments">Comments</label>
+            <textarea placeholder="" maxlength="5000" id="comments" name="comments" class="textarea w-input"></textarea>
+            <input type="submit" class="submit-button-2 w-button" value="Submit" id="submit-btn" />
+          </form>
+          <div id="form-success" style="display: none;">
             <div>Thank you! Your submission has been received!</div>
           </div>
-          <div class="w-form-fail">
+          <div id="form-error" style="display: none;">
             <div>Oops! Something went wrong while submitting the form.</div>
           </div>
         </div>
@@ -139,6 +155,62 @@
           </div>
         </div>
       </footer>
+
+<!-- Add EmailJS script if not already in the page -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<!-- Form submission script -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  emailjs.init('EESFEko27dm9qY7u2'); // Your EmailJS public key
+
+  const form = document.getElementById('home-evaluation-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const successMsg = document.getElementById('form-success');
+  const errorMsg = document.getElementById('form-error');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitBtn.value = 'Please wait...';
+
+    const formData = {
+      subject: "Home Evaluation Form Submission",
+      from_name: document.getElementById('name').value || "",
+      from_email: document.getElementById('email').value || "",
+      phone: document.getElementById('phone').value || "",
+      message: document.getElementById('comments').value || "",
+      preferred_time: "",
+      preferred_date: "",
+      address: document.getElementById('address').value || "",
+      property_type: document.getElementById('property-type').value || "",
+      bedrooms: "",
+      bathrooms: "",
+      square_footage: document.getElementById('size').value || "",
+      budget: "",
+      city: "",
+      completion_date: ""
+    };
+
+    console.log("Home Evaluation Form Data:", formData); // Debug: Check what’s being sent
+
+    emailjs.send('service_baxor2i', 'template_new_buy_pre', formData)
+      .then(() => {
+        successMsg.style.display = 'block';
+        errorMsg.style.display = 'none';
+        form.reset();
+        submitBtn.value = 'Submit';
+        setTimeout(() => successMsg.style.display = 'none', 5000);
+      })
+      .catch((error) => {
+        console.error('EmailJS Error:', error);
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'block';
+        submitBtn.value = 'Submit';
+        setTimeout(() => errorMsg.style.display = 'none', 5000);
+      });
+  });
+});
+</script>
 
     <script src="/js/jquery.js" type="text/javascript"  ></script>
     <script src="/js/webflow.schunk.6c94673727302d98.js" type="text/javascript"></script>
