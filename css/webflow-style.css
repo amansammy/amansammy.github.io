@@ -9328,8 +9328,8 @@ textarea.w-input, textarea.w-select {
   }
 
   .uui-heroheader24_image {
-    width: 110vw;
-    min-width: 110vw;
+    width: 100vw;
+    min-width: 100vw;
     max-width: none;
   }
 
@@ -9816,7 +9816,6 @@ textarea.w-input, textarea.w-select {
     width: 100vw;
     height: 20rem;
     min-height: 20rem;
-    margin-left: -5vw;
   }
 
   .uui-button-secondary-gray {
