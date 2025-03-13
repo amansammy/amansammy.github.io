@@ -5515,7 +5515,7 @@ textarea.w-input, textarea.w-select {
   margin-bottom: 0;
   display: flex;
   position: static;
-  max-width: 100vw;
+  max-width: 95vw;
 }
 
 .heading-32 {
@@ -9330,7 +9330,7 @@ textarea.w-input, textarea.w-select {
   .uui-heroheader24_image {
     width: 100vw;
     min-width: 100vw;
-    max-width: none;
+    max-width: 100vw;
   }
 
   .uui-heroheader24_image-background {
@@ -9803,8 +9803,7 @@ textarea.w-input, textarea.w-select {
 
 
   .uui-heroheader24_image {
-    width: 44rem;
-    min-width: 44rem;
+    width: 100vw;
   }
 
   .uui-heroheader24_image-wrapper {
