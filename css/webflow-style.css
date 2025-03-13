@@ -5515,7 +5515,7 @@ textarea.w-input, textarea.w-select {
   margin-bottom: 0;
   display: flex;
   position: static;
-  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 .heading-32 {
@@ -9333,10 +9333,6 @@ textarea.w-input, textarea.w-select {
     max-width: none;
   }
 
-  .uui-section_heroheader24 {
-    overflow-x: hidden;
-  }
-
   .uui-heroheader24_image-background {
     border-radius: 0;
     width: 100vw;
@@ -9851,7 +9847,6 @@ textarea.w-input, textarea.w-select {
     padding-left: 1rem;
     padding-right: 1rem;
     max-width: 100vw;
-    overflow-x: hidden;
   }
 
   .uui-heading-medium {
@@ -10189,7 +10184,6 @@ textarea.w-input, textarea.w-select {
   .homerbanner2 {
     width: 100vw;
     max-width: 100vw;
-    overflow-x: hidden;
     height: auto;
     padding-top: 50px;
     padding-bottom: 50px;
