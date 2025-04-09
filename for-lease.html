@@ -192,9 +192,9 @@
 
     <script>
         console.log('Script running');
-        console.log('Raw listingsJson:', [{"about": "sdasdasd", "address": "2323", "area": "sadas", "baths": "2", "beds": "12", "city": "DFS", "cityArea": "asdasd", "community": "asdasd", "crossStreet": "sadasd", "featured": true, "garages": "1", "listingNo": "1", "listingType": "For Lease", "photos": ["listings/1/bed.png"], "postalCode": "343", "price": "324345345", "propertyType": "townhouse", "sqft": "1212", "thumbnail": "listings/1/thumbnail.jpg"}]);
+        console.log('Raw listingsJson:', []);
         try {
-          const listings = [{"about": "sdasdasd", "address": "2323", "area": "sadas", "baths": "2", "beds": "12", "city": "DFS", "cityArea": "asdasd", "community": "asdasd", "crossStreet": "sadasd", "featured": true, "garages": "1", "listingNo": "1", "listingType": "For Lease", "photos": ["listings/1/bed.png"], "postalCode": "343", "price": "324345345", "propertyType": "townhouse", "sqft": "1212", "thumbnail": "listings/1/thumbnail.jpg"}];
+          const listings = [];
           console.log('Parsed listings:', listings);
           let currentListings = [...listings];
           console.log('Initial currentListings:', currentListings);
