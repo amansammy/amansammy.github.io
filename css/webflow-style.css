@@ -233,6 +233,7 @@ img {
   vertical-align: middle;
   max-width: 100%;
   display: inline-block;
+  object-fit: cover;
 }
 
 html.w-mod-touch * {
