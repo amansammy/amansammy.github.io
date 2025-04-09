@@ -176,7 +176,6 @@ td, th {
 }
 
 [class^="w-icon-"], [class*=" w-icon-"] {
-  speak: none;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
