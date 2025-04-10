@@ -261,8 +261,8 @@
                 <input type="number" id="garages" required>
             </div>
             <div class="form-group">
-                <label>Square Feet:</label>
-                <input type="number" id="sqft" required>
+                <label>Square Feet (e.g., 1200 or 1000-1500):</label>
+                <input type="text" id="sqft" required pattern="^\d+$|^\d+-\d+$" title="Enter a number (e.g., 1200) or a range (e.g., 1000-1500)">
             </div>
             <div class="form-group">
                 <label>About Property:</label>
@@ -283,6 +283,10 @@
             <div class="form-group">
                 <label>City Area:</label>
                 <input type="text" id="cityArea" required>
+            </div>
+            <div class="form-group">
+                <label>Listing Provider:</label>
+                <input type="text" id="listingProvider" required>
             </div>
             <button type="submit" id="add-btn">Add Listing</button>
             <button type="button" class="edit-btn" id="edit-btn" onclick="saveEditedListing()">Save Edited Listing</button>
@@ -330,6 +334,13 @@
             e.preventDefault();
             if (editingIndex !== null) return; // Prevent adding when editing
 
+            const sqftInput = document.getElementById('sqft').value;
+            const sqftPattern = /^\d+$|^\d+-\d+$/;
+            if (!sqftPattern.test(sqftInput)) {
+                alert('Square Feet must be a number (e.g., 1200) or a range (e.g., 1000-1500)');
+                return;
+            }
+
             const formData = new FormData();
             const listing = {
                 address: document.getElementById('address').value,
@@ -342,12 +353,13 @@
                 beds: document.getElementById('beds').value,
                 baths: document.getElementById('baths').value,
                 garages: document.getElementById('garages').value,
-                sqft: document.getElementById('sqft').value,
+                sqft: sqftInput,
                 about: document.getElementById('about').value,
                 community: document.getElementById('community').value,
                 area: document.getElementById('area').value,
                 crossStreet: document.getElementById('crossStreet').value,
                 cityArea: document.getElementById('cityArea').value,
+                listingProvider: document.getElementById('listingProvider').value,
                 featured: false
             };
 
@@ -401,6 +413,7 @@
             document.getElementById('area').value = listing.area;
             document.getElementById('crossStreet').value = listing.crossStreet;
             document.getElementById('cityArea').value = listing.cityArea;
+            document.getElementById('listingProvider').value = listing.listingProvider || '';
             // Clear file inputs (user must re-upload if changing photos)
             document.getElementById('thumbnail').value = '';
             document.getElementById('photos').value = '';
@@ -409,6 +422,13 @@
         }
 
         async function saveEditedListing() {
+            const sqftInput = document.getElementById('sqft').value;
+            const sqftPattern = /^\d+$|^\d+-\d+$/;
+            if (!sqftPattern.test(sqftInput)) {
+                alert('Square Feet must be a number (e.g., 1200) or a range (e.g., 1000-1500)');
+                return;
+            }
+
             const formData = new FormData();
             const listing = {
                 address: document.getElementById('address').value,
@@ -421,12 +441,13 @@
                 beds: document.getElementById('beds').value,
                 baths: document.getElementById('baths').value,
                 garages: document.getElementById('garages').value,
-                sqft: document.getElementById('sqft').value,
+                sqft: sqftInput,
                 about: document.getElementById('about').value,
                 community: document.getElementById('community').value,
                 area: document.getElementById('area').value,
                 crossStreet: document.getElementById('crossStreet').value,
                 cityArea: document.getElementById('cityArea').value,
+                listingProvider: document.getElementById('listingProvider').value,
                 featured: listings[editingIndex].featured // Preserve featured status
             };
 
@@ -441,7 +462,7 @@
             }
 
             try {
-                const response = await fetch('/update-listing', {
+                const response = await fetch('/add-listing', { // Using /add-listing since no /update-listing exists
                     method: 'POST',
                     body: formData
                 });
@@ -475,6 +496,7 @@
             document.getElementById('listing-form').reset();
             editingIndex = null;
             toggleFormMode('add');
+            displayListings();
         }
 
         function toggleFeatured(index) {

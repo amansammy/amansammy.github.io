@@ -59,6 +59,7 @@ for listing in listings:
     listing_page = listing_page.replace('{price}', format_price(listing['price']))
     listing_page = listing_page.replace('{today}', datetime.now().strftime('%Y-%m-%d'))
     listing_page = listing_page.replace('{listingType}', listing.get('listingType', 'For Sale'))
+    listing_page = listing_page.replace('{listingProvider}', listing.get('listingProvider', ''))  # Added
 
     with open(f'listing-{listing["listingNo"]}.html', 'w', encoding='utf-8') as f:
         f.write(listing_page)
@@ -116,7 +117,7 @@ def generate_featured_listing(listing):
         </a>
     '''
 
-featured_listings = ''.join(generate_featured_listing(listing) for listing in listings if listing['featured'])
+featured_listings = ''.join(generate_featured_listing(listing) for listing in listings if listing.get('featured', False))
 if not featured_listings:
     featured_listings = '<!-- No featured listings available -->'
 

@@ -12,9 +12,10 @@
     "featured": true,
     "garages": "0",
     "listingNo": "X11918157",
+    "listingProvider": "Quantum Team Realty",
     "listingType": "For Sale",
     "photos": [
-      "listings/X11918157/x11918157_24.jpg",
+      "listings/X11918157/3-2-1024x650.jpg",
       "listings/X11918157/x11918157_23.jpg",
       "listings/X11918157/x11918157_22.jpg",
       "listings/X11918157/x11918157_21.jpg",
@@ -41,7 +42,7 @@
     "postalCode": "L2G 1Y7",
     "price": "559900",
     "propertyType": "House",
-    "sqft": "1500",
+    "sqft": "1000-1500",
     "thumbnail": "listings/X11918157/thumbnail.jpg"
   }
 ]
